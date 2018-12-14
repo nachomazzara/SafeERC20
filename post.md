@@ -76,24 +76,6 @@ function transferFrom(
 }
 ```
 
-### No reverts
-
-Tokens as [RCN](https://etherscan.io/address/0xf970b8e36e23f7fc3fd752eea86f8be8d83375a6#code) return `false` in case the pre-conditions are false
-
-```solidity
-function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {
- if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value) {
-   balances[_to] = balances[_to].add(_value);
-   balances[_from] = balances[_from].sub(_value);
-   allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
-   Transfer(_from, _to, _value);
-   return true;
- } else {
-   return false;
- }
-}
-```
-
 ### Without returning value
 
 Tokens as [BNB](https://etherscan.io/address/0xB8c77482e45F1F44dE1745F52C74426C631bDD52#code) hasn't a return value when performing a `transferFrom`
