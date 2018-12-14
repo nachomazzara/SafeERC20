@@ -76,20 +76,22 @@ function transferFrom(
 }
 ```
 
-### No reverts	
- Tokens as [RCN](https://etherscan.io/address/0xf970b8e36e23f7fc3fd752eea86f8be8d83375a6#code) return `false` in case the pre-conditions are false	
- ```solidity	
-function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {	
-  if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value) {	
-    balances[_to] = balances[_to].add(_value);	
-    balances[_from] = balances[_from].sub(_value);	
-    allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);	
-    Transfer(_from, _to, _value);	
-    return true;	
-  } else {	
-    return false;	
-  }	
-}	
+### No reverts
+
+Tokens as [RCN](https://etherscan.io/address/0xf970b8e36e23f7fc3fd752eea86f8be8d83375a6#code) return `false` in case the pre-conditions are false
+
+```solidity
+function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {
+  if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value) {
+    balances[_to] = balances[_to].add(_value);
+    balances[_from] = balances[_from].sub(_value);
+    allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
+    Transfer(_from, _to, _value);
+    return true;
+  } else {
+    return false;
+  }
+}
 ```
 
 ## _approve_
@@ -253,8 +255,7 @@ function clearApprove(IERC20 _token, address _spender) internal returns (bool) {
 }
 ```
 
-_[Fullcode here](https://gist.github.com/nachomazzara/73a02653210605777547b3e3ef2218c4)_
-_[Usage example]()_
+_[Full code](https://github.com/nachomazzara/SafeERC20/blob/master/contracts/libs/SafeERC20.sol)_
 
 ## Caveats
 
@@ -270,3 +271,5 @@ Hope this will help on the standardization of most of **ERC20**, **ERC721** and 
 With Solidity 0.5.x _`.call()`_, _`.delegatecall()`_ and _`.staticcall()`_ now return _`(bool, bytes memory)`_ to provide access to the return data. We are working on a version for this library with support for it.
 
 Special thanks to [Agustin Aguilar](https://twitter.com/Agusx1211) who discovered the first differences between **ERC20** tokens in the audit for the [LANDAuction contract](https://github.com/decentraland/land-auction/blob/master/contracts/auction/LANDAuction.sol) and [Patricio Palladino](https://twitter.com/alcuadrado) for shedding some light about the Solidity compiler.
+
+[Github Repo](https://github.com/nachomazzara/SafeERC20)
