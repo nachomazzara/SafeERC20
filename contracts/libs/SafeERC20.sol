@@ -83,7 +83,7 @@ library SafeERC20 {
    * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
    *
    * @param _token erc20 The address of the ERC20 contract
-   * @param _spender The asafeTransferFromddress which will spend the funds.
+   * @param _spender The address which will spend the funds.
    * @param _value The amount of tokens to be spent.
    * @return bool whether the approve was successful or not
    */
