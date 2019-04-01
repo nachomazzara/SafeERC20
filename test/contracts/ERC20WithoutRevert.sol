@@ -132,8 +132,8 @@ contract ERC20WithoutRevert is Initializable {
         }
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) 
-    public returns (bool success) 
+    function transferFrom(address _from, address _to, uint256 _value)
+    public returns (bool success)
     {
         if (_balances[_from] >= _value && _allowed[_from][msg.sender] >= _value) {
             _balances[_to] = _balances[_to].add(_value);

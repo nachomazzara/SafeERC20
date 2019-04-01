@@ -16,7 +16,7 @@ contract TesterContract {
     function doTransfer(address to, uint256 value) public {
         require(token.safeTransfer(to, value), "Transfer Failed");
     }
-    
+
     function doTransferFrom(address from, address to, uint256 value) public {
         require(token.safeTransferFrom(from, to, value), "Transfer from Failed");
     }
