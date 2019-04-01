@@ -29,11 +29,6 @@ library SafeERC20 {
     function safeTransfer(IERC20 _token, address _to, uint256 _value) internal returns (bool) {
         uint256 prevBalance = _token.balanceOf(address(this));
 
-        if (prevBalance < _value) {
-            // Insufficient funds
-            return false;
-        }
-
         address(_token).call(
             abi.encodeWithSignature("transfer(address,uint256)", _to, _value)
         );
@@ -59,14 +54,8 @@ library SafeERC20 {
         address _from,
         address _to,
         uint256 _value
-    ) internal returns (bool)
-    {
+    ) internal returns (bool) {
         uint256 prevBalance = _token.balanceOf(_from);
-
-        if (prevBalance < _value) {
-            // Insufficient funds
-            return false;
-        }
 
         if (_token.allowance(_from, address(this)) < _value) {
             // Insufficient allowance
