@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
 import "openzeppelin-eth/contracts/token/ERC20/IERC20.sol";
 import "../../contracts/libs/SafeERC20.sol";
@@ -16,7 +16,7 @@ contract TesterContract {
     function doTransfer(address to, uint256 value) public {
         require(token.safeTransfer(to, value), "Transfer Failed");
     }
-    
+
     function doTransferFrom(address from, address to, uint256 value) public {
         require(token.safeTransferFrom(from, to, value), "Transfer from Failed");
     }

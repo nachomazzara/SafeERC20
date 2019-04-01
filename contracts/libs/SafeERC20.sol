@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
 import "openzeppelin-eth/contracts/token/ERC20/IERC20.sol";
 
@@ -11,10 +11,10 @@ import "openzeppelin-eth/contracts/token/ERC20/IERC20.sol";
 *
 * Why Approve: approve method could has a return value (bool) or does not accept 0 as a valid value (BNB token).
 * The common strategy used to clean approvals.
-* 
+*
 * We use the Solidity call instead of interface methods because in the case of transfer, it will fail
 * for tokens with an implementation without returning a value.
-* Since versions of Solidity 0.4.22 the EVM has a new opcode, called RETURNDATASIZE. 
+* Since versions of Solidity 0.4.22 the EVM has a new opcode, called RETURNDATASIZE.
 * This opcode stores the size of the returned data of an external call. The code checks the size of the return value
 * after an external call and reverts the transaction in case the return data is shorter than expected
 */
@@ -57,9 +57,9 @@ library SafeERC20 {
     function safeTransferFrom(
         IERC20 _token,
         address _from,
-        address _to, 
+        address _to,
         uint256 _value
-    ) internal returns (bool) 
+    ) internal returns (bool)
     {
         uint256 prevBalance = _token.balanceOf(_from);
 
@@ -92,7 +92,7 @@ library SafeERC20 {
    * and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
    * race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
    * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
-   * 
+   *
    * @param _token erc20 The address of the ERC20 contract
    * @param _spender The address which will spend the funds.
    * @param _value The amount of tokens to be spent.
@@ -111,7 +111,7 @@ library SafeERC20 {
         return true;
     }
 
-   /** 
+   /**
    * @dev Clear approval
    * Note that if 0 is not a valid value it will be set to 1.
    * @param _token erc20 The address of the ERC20 contract

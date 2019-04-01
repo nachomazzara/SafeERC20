@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
 import "zos-lib/contracts/Initializable.sol";
 import "openzeppelin-eth/contracts/math/SafeMath.sol";
@@ -132,8 +132,8 @@ contract ERC20WithoutRevert is Initializable {
         }
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) 
-    public returns (bool success) 
+    function transferFrom(address _from, address _to, uint256 _value)
+    public returns (bool success)
     {
         if (_balances[_from] >= _value && _allowed[_from][msg.sender] >= _value) {
             _balances[_to] = _balances[_to].add(_value);
@@ -154,7 +154,7 @@ contract ERC20WithoutRevert is Initializable {
     * @param amount The amount that will be created.
     */
     function _mint(address account, uint256 amount) internal {
-        require(account != 0);
+        require(account != address(0));
         _totalSupply = _totalSupply.add(amount);
         _balances[account] = _balances[account].add(amount);
         emit Transfer(address(0), account, amount);
@@ -167,7 +167,7 @@ contract ERC20WithoutRevert is Initializable {
     * @param amount The amount that will be burnt.
     */
     function _burn(address account, uint256 amount) internal {
-        require(account != 0);
+        require(account != address(0));
         require(amount <= _balances[account]);
 
         _totalSupply = _totalSupply.sub(amount);

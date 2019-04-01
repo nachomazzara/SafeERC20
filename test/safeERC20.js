@@ -1,8 +1,5 @@
-const BigNumber = web3.BigNumber
-require('chai')
-  .use(require('chai-as-promised'))
-  .use(require('chai-bignumber')(BigNumber))
-  .should()
+const BN = web3.utils.BN
+const expect = require('chai').use(require('bn-chai')(BN)).expect
 
 const ERC20 = artifacts.require('ERC20Standard')
 const ERC20WithTransferWithDifferentSignature = artifacts.require(
@@ -53,58 +50,58 @@ contract('LANDAuction', function([_, owner, holder, anotherHolder]) {
       erc20 = await ERC20Token.new(creationParams)
       testerContract = await TesterContract.new(erc20.address, creationParams)
 
-      await erc20.setBalance(testerContract.address, web3.toWei(10, 'ether'))
+      await erc20.setBalance(testerContract.address, web3.utils.toWei('10'))
 
       let testerContractBalance = await erc20.balanceOf(testerContract.address)
-      testerContractBalance.should.be.bignumber.equal(web3.toWei(10, 'ether'))
+      expect(testerContractBalance).to.eq.BN(web3.utils.toWei('10'))
 
       let holderBalance = await erc20.balanceOf(anotherHolder)
-      holderBalance.should.be.bignumber.equal(web3.toWei(0, 'ether'))
+      expect(holderBalance).to.eq.BN('0')
 
-      await testerContract.doTransfer(anotherHolder, web3.toWei(1, 'ether'))
+      await testerContract.doTransfer(anotherHolder, web3.utils.toWei('1'))
 
       testerContractBalance = await erc20.balanceOf(testerContract.address)
-      testerContractBalance.should.be.bignumber.equal(web3.toWei(9, 'ether'))
+      expect(testerContractBalance).to.eq.BN(web3.utils.toWei('9'))
 
       holderBalance = await erc20.balanceOf(anotherHolder)
-      holderBalance.should.be.bignumber.equal(web3.toWei(1, 'ether'))
+      expect(holderBalance).to.eq.BN(web3.utils.toWei('1'))
     })
 
     it('should transferFrom', async function() {
       erc20 = await ERC20Token.new(creationParams)
       testerContract = await TesterContract.new(erc20.address, creationParams)
 
-      await erc20.setBalance(holder, web3.toWei(10, 'ether'))
+      await erc20.setBalance(holder, web3.utils.toWei('10'))
 
       let testerContractBalance = await erc20.balanceOf(testerContract.address)
-      testerContractBalance.should.be.bignumber.equal(0)
+      expect(testerContractBalance).to.eq.BN('0')
 
       let holderBalance = await erc20.balanceOf(holder)
-      holderBalance.should.be.bignumber.equal(web3.toWei(10, 'ether'))
+      expect(holderBalance).to.eq.BN(web3.utils.toWei('10'))
 
       let anotherHolderBalance = await erc20.balanceOf(anotherHolder)
-      anotherHolderBalance.should.be.bignumber.equal(web3.toWei(0, 'ether'))
+      expect(anotherHolderBalance).to.eq.BN('0')
 
       await erc20.approve(
         testerContract.address,
-        web3.toWei(10, 'ether'),
+        web3.utils.toWei('10'),
         fromHolder
       )
 
       await testerContract.doTransferFrom(
         holder,
         anotherHolder,
-        web3.toWei(1, 'ether')
+        web3.utils.toWei('1')
       )
 
       testerContractBalance = await erc20.balanceOf(testerContract.address)
-      testerContractBalance.should.be.bignumber.equal(0)
+      expect(testerContractBalance).to.eq.BN('0')
 
       holderBalance = await erc20.balanceOf(holder)
-      holderBalance.should.be.bignumber.equal(web3.toWei(9, 'ether'))
+      expect(holderBalance).to.eq.BN(web3.utils.toWei('9'))
 
       anotherHolderBalance = await erc20.balanceOf(anotherHolder)
-      anotherHolderBalance.should.be.bignumber.equal(web3.toWei(1, 'ether'))
+      expect(anotherHolderBalance).to.eq.BN(web3.utils.toWei('1'))
     })
 
     it('should approve', async function() {
@@ -115,19 +112,19 @@ contract('LANDAuction', function([_, owner, holder, anotherHolder]) {
         testerContract.address,
         holder
       )
-      holderAllowance.should.be.bignumber.equal(0)
+      expect(holderAllowance).to.eq.BN(0)
 
-      await testerContract.doApprove(holder, web3.toWei(10, 'ether'))
+      await testerContract.doApprove(holder, web3.utils.toWei('10'))
 
       holderAllowance = await erc20.allowance(testerContract.address, holder)
-      holderAllowance.should.be.bignumber.equal(web3.toWei(10))
+      expect(holderAllowance).to.eq.BN(web3.utils.toWei('10'))
 
       //@nacho TODO: Uncomment this when clear and approve will be done
 
-      // await testerContract.doApprove(holder, web3.toWei(100, 'ether'))
+      // await testerContract.doApprove(holder, web3.utils.toWei('100'))
 
       // holderAllowance = await erc20.allowance(testerContract.address, holder)
-      // holderAllowance.should.be.bignumber.equal(web3.toWei(100))
+      // expect(holderAllowance).to.eq.BN(web3.utils.toWei('10'))
     })
 
     it('should clearApprove', async function() {
@@ -137,22 +134,22 @@ contract('LANDAuction', function([_, owner, holder, anotherHolder]) {
         testerContract.address,
         holder
       )
-      holderAllowance.should.be.bignumber.equal(0)
+      expect(holderAllowance).to.eq.BN('0')
 
-      await testerContract.doApprove(holder, web3.toWei(10, 'ether'))
+      await testerContract.doApprove(holder, web3.utils.toWei('10'))
 
       holderAllowance = await erc20.allowance(testerContract.address, holder)
-      holderAllowance.should.be.bignumber.equal(web3.toWei(10))
+      expect(holderAllowance).to.eq.BN(web3.utils.toWei('10'))
 
       await testerContract.doClearApprove(holder)
 
       holderAllowance = await erc20.allowance(testerContract.address, holder)
-      holderAllowance.should.be.bignumber.equal(cleanApproveValue)
+      expect(holderAllowance).to.eq.BN(cleanApproveValue)
 
       await testerContract.doClearApprove(holder)
 
       holderAllowance = await erc20.allowance(testerContract.address, holder)
-      holderAllowance.should.be.bignumber.equal(cleanApproveValue)
+      expect(holderAllowance).to.eq.BN(cleanApproveValue)
     })
   }
 })
