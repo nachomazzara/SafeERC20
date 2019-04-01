@@ -54,7 +54,8 @@ library SafeERC20 {
         address _from,
         address _to,
         uint256 _value
-    ) internal returns (bool) {
+    ) internal returns (bool)
+    {
         uint256 prevBalance = _token.balanceOf(_from);
 
         if (_token.allowance(_from, address(this)) < _value) {
