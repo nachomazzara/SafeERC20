@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.12;
 
 import "zos-lib/contracts/Initializable.sol";
 import "openzeppelin-eth/contracts/math/SafeMath.sol";
