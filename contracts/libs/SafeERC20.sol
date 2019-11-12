@@ -38,12 +38,8 @@ library SafeERC20 {
             abi.encodeWithSignature("transfer(address,uint256)", _to, _value)
         );
 
-        if (prevBalance - _value != _token.balanceOf(address(this))) {
-            // Transfer failed
-            return false;
-        }
-
-        return true;
+        // Fail if the new balance its not equal than previous balance sub _value
+        return prevBalance - _value == _token.balanceOf(address(this));
     }
 
     /**
@@ -77,12 +73,8 @@ library SafeERC20 {
             abi.encodeWithSignature("transferFrom(address,address,uint256)", _from, _to, _value)
         );
 
-        if (prevBalance - _value != _token.balanceOf(_from)) {
-            // Transfer failed
-            return false;
-        }
-
-        return true;
+        // Fail if the new balance its not equal than previous balance sub _value
+        return prevBalance - _value == _token.balanceOf(address(this));
     }
 
    /**
@@ -103,12 +95,8 @@ library SafeERC20 {
             abi.encodeWithSignature("approve(address,uint256)",_spender, _value)
         );
 
-        if (_token.allowance(address(this), _spender) != _value) {
-            // Approve failed
-            return false;
-        }
-
-        return true;
+        // Fail if the new allowance its not equal than _value
+        return _token.allowance(address(this), _spender) == _value;
     }
 
    /**
