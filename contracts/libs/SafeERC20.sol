@@ -59,13 +59,10 @@ library SafeERC20 {
     {
         uint256 prevBalance = _token.balanceOf(_from);
 
-        if (prevBalance < _value) {
-            // Insufficient funds
-            return false;
-        }
-
-        if (_token.allowance(_from, address(this)) < _value) {
-            // Insufficient allowance
+        if (
+          prevBalance < _value || // Insufficient funds
+          _token.allowance(_from, address(this)) < _value // Insufficient allowance
+        ) {
             return false;
         }
 
