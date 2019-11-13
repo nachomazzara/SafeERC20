@@ -71,7 +71,7 @@ library SafeERC20 {
         );
 
         // Fail if the new balance its not equal than previous balance sub _value
-        return prevBalance - _value == _token.balanceOf(address(this));
+        return prevBalance - _value == _token.balanceOf(_from);
     }
 
    /**
